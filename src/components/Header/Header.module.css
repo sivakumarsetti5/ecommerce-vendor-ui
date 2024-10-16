@@ -1,0 +1,11 @@
+.header_container{
+    background-color: #19398a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white
+}
+.header{
+    font-size: 30px;
+    font-family: cursive;
+}

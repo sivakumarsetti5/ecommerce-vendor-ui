@@ -1,0 +1,38 @@
+.menu{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    background-color: #d9d9eb;
+    text-align: right;
+}
+.menu > li{
+    display: inline;
+    margin-right: 20px;
+    line-height: 30px;
+    letter-spacing: 3px;
+}
+.menu a{
+    text-decoration: none;
+}
+.mobile_menu_icon{
+    position: absolute;
+    right: 0;
+}
+.mobileMenu{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background: #c6c7e3;
+    width: 70vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    transition: left 1s ease;
+}
+.mobileMenu >li{
+    letter-spacing: 3px;
+    padding: 10px;
+}
+.mobileMenu a{
+    text-decoration: none;
+}

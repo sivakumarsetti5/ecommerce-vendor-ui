@@ -1,0 +1,35 @@
+[
+    {
+        "lbl":"User Name",
+        "lblCols":"5",
+        "name":"uid",
+        "type":"text",
+        "errMsgCols":"4",
+        "errorMsg":"",
+        "inputCols":"3",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "placeholder":"Email/Phone",
+        "criteria":[
+            "REQUIRED",
+            "EMAIL/PHONE"
+        ]
+    },
+    {
+        "lbl":"Password",
+        "lblCols":"5",
+        "name":"pwd",
+        "type":"password",
+        "errMsgCols":"4",
+        "errorMsg":"",
+        "inputCols":"3",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "criteria":[
+            "REQUIRED",
+            "MIN5CHAR"
+        ]
+    }
+]
