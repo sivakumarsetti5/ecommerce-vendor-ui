@@ -1,44 +1,51 @@
 "use client"
 import React, {useState } from 'react'
-import { Input } from '@/components/shared/Input'
+// import { Input } from '@/components/shared/Input'
+import {Input} from '../shared/Input'
 import config  from './config.json'
-import { handleFieldLevelValidation, handleFormLevelValidation } from '@/services/validations'
-import Ajax from '@/services/ajax'
-import { updateStoreData } from '@/services/functions'
-import { AppCookies } from '@/services/cookies'
+import { handleFieldLevelValidation, handleFormLevelValidation } from '../../services/validations'
+import { AppCookies } from '../../services/cookies'
 import { useDispatch } from 'react-redux'
+import { useLazyQuery } from '@apollo/client'
+import {USER_LOGIN} from '../../graphQL/query/userLogin'
+import { updateStoreData } from '../../services/functions'
 
 export const Login = () => {
     const[inputControls,setinputControls] = useState(config)
+    const[fnAuth] =  useLazyQuery(USER_LOGIN)
     const dispatch = useDispatch()
     const fnLogin = async() => {
         try{
-        const[isInvalid,data] = handleFormLevelValidation(inputControls,setinputControls)
-        if (isInvalid) return
-        updateStoreData(dispatch,"LOADER",true)
-        const response = await Ajax.post("auth/login",{data})
-        //console.log(response)
-        if(response?.data?.length >0){
-            updateStoreData(dispatch,"LOGIN",true)
-            console.log('loginData',response?.data)
-
-            const {_id,uid}=response?.data?.[0] || {}
-            AppCookies.setCookie("id",_id,10)
-            AppCookies.setCookie('uid',uid,10)
-            
-        }else{
+            const[isInvalid,data] = handleFormLevelValidation(inputControls,setinputControls)
+            console.log("data",data)
+            if (isInvalid) return
+            updateStoreData(dispatch,"LOADER",true)
+            const res = await fnAuth({
+                variables:{userLoginData:data}
+            })
+            console.log("res",res)
+            const{_id,uid,phone}=res?.data?.handleLogin?.[0] || {}
+            if(uid){
+                AppCookies.setCookie('id',_id,7)
+                AppCookies.setCookie('uid',uid,7)
+                AppCookies.setCookie('phone',phone,7)
+                updateStoreData(dispatch,"LOGIN",true)
+            }else{
+                updateStoreData(dispatch,"TOASTER",{
+                    isShowToaster:true,
+                    toasterMsg:"check uid and pwd",
+                    color:"red"
+                })
+            }       
+        }catch(ex){
             updateStoreData(dispatch,"TOASTER",{
                 isShowToaster:true,
-                toasterMsg:"Check the uid and pwd",
-                color:'red'
+                toasterMsg: ex?.message,
+                color:"red"
             })
+        }finally{
+            updateStoreData(dispatch,"LOADER",false)
         }
-    }catch(ex){
-
-    }finally{
-        updateStoreData(dispatch,"LOADER",false)
-    }
-    //alert(`Sending data to the server ${JSON.stringify(dataObj)}`)    //if valid form then send the data to server 
     }
     const handleChange = (event) =>{
         handleFieldLevelValidation(event,inputControls,setinputControls)

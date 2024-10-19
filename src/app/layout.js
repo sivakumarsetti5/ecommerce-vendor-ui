@@ -2,7 +2,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.css"
-import { Provider} from "react-redux";
+import { Provider, useSelector} from "react-redux";
 import RootLayoutWrapper from "./layoutWrapper";
 import { store } from "../stateManagement/appStore";
 import {ApolloProvider,ApolloClient,InMemoryCache} from '@apollo/client'

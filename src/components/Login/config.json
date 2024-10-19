@@ -10,10 +10,10 @@
         "hasError":false,
         "value":"",
         "isRequired":true,
-        "placeholder":"Email/Phone",
+        "placeholder":"Enter Email",
         "criteria":[
             "REQUIRED",
-            "EMAIL/PHONE"
+            "EMAIL"
         ]
     },
     {
@@ -27,6 +27,7 @@
         "hasError":false,
         "value":"",
         "isRequired":true,
+        "placeholder":"Enter Password",
         "criteria":[
             "REQUIRED",
             "MIN5CHAR"

@@ -1,12 +1,11 @@
-import { appCtx } from '@/context/appCtx'
 import React, { useEffect, useState } from 'react'
-import { useContext } from 'react'
 import styles from './Toaster.module.css'
-import { updateStoreData } from '@/services/functions'
+import { updateStoreData } from '../../../services/functions'
+import { useDispatch, useSelector } from 'react-redux'
 export const Toaster = () => {
     const[width,setWidth] = useState(0)
-    const{state,dispatch} = useContext(appCtx)
-    const{toasterMsg,color} = state?.toaster
+    const dispatch = useDispatch()
+    const{toasterMsg,color} = useSelector(state=>state?.appReducer?.toaster)
     useEffect(()=>{
       const interval = setInterval(()=>{
         setWidth(prev=>{

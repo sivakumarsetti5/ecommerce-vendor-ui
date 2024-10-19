@@ -46,7 +46,7 @@ export const Menu = () => {
     }
     return (
         <>
-        {isMobileView && <Image onClick={handleMobileMenuBtnClick} className={styles.mobile_menu_icon} src='/mobileMenu.png' width={40} height={30} alt='mobile Menu'/>}
+        {isMobileView && <Image onClick={handleMobileMenuBtnClick} className={styles.mobile_menu_icon} src='/menu-icon.jpg' width={40} height={30} alt='mobile Menu'/>}
         <ul style={{left}} className={isMobileView ? styles.mobileMenu : styles.menu}>
             {
             menuItems?.map(({id,name,path})=>{
