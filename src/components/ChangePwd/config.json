@@ -1,0 +1,56 @@
+[
+    {
+        "lbl":"Current Password",
+        "lblCols":"5",
+        "name":"pwd",
+        "type":"password",
+        "errMsgCols":"4",
+        "errorMsg":"",
+        "inputCols":"3",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "placeholder":"Enter Current Password",
+        "criteria":[
+            "REQUIRED",
+            "MIN5CHAR"
+        ]
+    },
+    {
+        "lbl":"New Password",
+        "lblCols":"5",
+        "name":"newPwd",
+        "type":"text",
+        "errMsgCols":"4",
+        "errorMsg":"",
+        "inputCols":"3",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "placeholder":"Enter New Password",
+        "criteria":[
+            "REQUIRED",
+            "MIN5CHAR",
+            "RETYPEPWD"
+        ]
+    },
+    {
+        "lbl":"Confirm Password",
+        "lblCols":"5",
+        "name":"ConfirmPwd",
+        "type":"text",
+        "errMsgCols":"4",
+        "errorMsg":"",
+        "inputCols":"3",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "placeholder":"Enter Confirm Password",
+        "criteria":[
+            "REQUIRED",
+            "MIN5CHAR",
+            "RETYPEPWD"
+        ]
+    }
+
+]

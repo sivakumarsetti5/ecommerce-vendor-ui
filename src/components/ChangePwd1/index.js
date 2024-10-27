@@ -1,0 +1,1 @@
+export { ChangePwd1 } from "./ChangePwd1";

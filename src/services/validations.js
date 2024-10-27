@@ -1,6 +1,6 @@
 const regEx = {
     "REQUIRED":{
-        pattern:/./,
+        pattern:/.+/,
         message:'Required !!!'
     },
     "EMAIL":{
@@ -14,25 +14,43 @@ const regEx = {
     "PHONENUMBER":{
         pattern:/^[0-9]{10}$/,
         message:"Exactly 10 digits required"
+    },
+    "RETYPEPWD":{
+        message:"Password not match"
+    },
+    "CAPTCHA":{
+        message:"Invalid Captcha"
     }
 }
 
-function validate(inputObj){
+function validate(inputObj,clonedInputControls){
     inputObj.errorMsg = ""
     for(let val of inputObj?.criteria){
         const{pattern,message} = regEx[val]
-        if(!pattern.test(inputObj?.value)){
-            inputObj.errorMsg = message
-            break
+        if(val === "RETYPEPWD"){
+            const newPwdObj = clonedInputControls.find((obj)=>obj.name === "newPwd")
+            const confirmPwdObj = clonedInputControls.find((obj)=>obj.name === "ConfirmPwd")
+            newPwdObj.errorMsg = ""
+            confirmPwdObj.errorMsg = ""
+            if(newPwdObj?.value && confirmPwdObj?.value && newPwdObj?.value !== confirmPwdObj?.value){
+                inputObj.errorMsg = message
+                break;
+            }
+        }else{
+            if (pattern && !pattern.test(inputObj?.value)) {
+            // if(!pattern?.test(inputObj?.value)){
+                inputObj.errorMsg = message
+                break
+            }
         }
-    }
+        }
 }
 export function handleFieldLevelValidation(event,inputControls,setinputControls){
     const{name,value} = event?.target
     const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
     let inputObj  = clonedInputControls.find((obj )=>obj.name === name)
     inputObj.value = value
-    validate(inputObj)
+    validate(inputObj,clonedInputControls)
     // console.log(inputControls)
     setinputControls(clonedInputControls)
 }
@@ -40,9 +58,10 @@ export function handleFieldLevelValidation(event,inputControls,setinputControls)
 export function handleFormLevelValidation(inputControls,setInputControls){
     const dataObj  = {}
         const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
-        clonedInputControls.forEach((obj ) =>{                 //check each input field have data or not
+        console.log(clonedInputControls)
+        clonedInputControls.forEach((obj ) =>{                            //check each input field have data or not
             dataObj[obj.name] = obj.value
-            validate(obj)                           //if data is there then update hasError is false otherwise true
+            validate(obj,clonedInputControls)                           //if data is there then update hasError is false otherwise true
         })
         const isInValid = clonedInputControls.some((obj)=> obj.errorMsg) //If any of the input object with hasError is true then it is invalid
         setInputControls(clonedInputControls)
@@ -60,6 +79,11 @@ export function setFormData(inputControls,setInputControls,rowData,isEdit,fieldN
     setInputControls(clonedInputControls)
 }
 
-export function clearFormData(){
+export function clearFormData(inputControls,setInputControls){
+    const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
+    clonedInputControls.forEach((obj ) =>{       
+        obj.value = ""         
+    })
+    setInputControls(clonedInputControls)
     
 }
