@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Pagination } from './Pagination'
 
-export const AppTable = ({ths,data,tds,handleEdit,handleDelete}) => {
+export const AppTable = ({ths,data,tds,handleEdit,handleDelete,hasImage}) => {
     const perPage = 5;
     const [currPage, setCurrPage] = React.useState(1)
     const [currData, setCurrData] = useState([])
@@ -13,6 +13,7 @@ export const AppTable = ({ths,data,tds,handleEdit,handleDelete}) => {
     }, [currPage, data])
   return (
     <div className='table-responsive'>
+        {data && data?.length ? <>
         <table className='table table-bordered'>
             <thead>
                 <tr>
@@ -36,8 +37,11 @@ export const AppTable = ({ths,data,tds,handleEdit,handleDelete}) => {
             </tbody>
         </table>
         <div>
-        <Pagination currPage={currPage} setCurrPage={setCurrPage} totalPages={Math.ceil(data.length/perPage)} />
+        <Pagination currPage={currPage} setCurrPage={setCurrPage} totalPages={Math.ceil(data?.length/perPage)} />
         </div>
+        </>
+        :
+        <div>No Data Found</div>}
     </div>
   )
 }

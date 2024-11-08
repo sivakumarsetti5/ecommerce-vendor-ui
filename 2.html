@@ -1,0 +1,27 @@
+<style>
+    .box{
+        background-color: red;
+        height: 100px;
+        width: 100px;
+    }
+    .cont1{
+        height: 1000px;
+    }
+</style>
+
+<div class="cont1"></div>
+<div class="box"></div>
+<div class="cont1"></div>
+
+<script>
+    const elementRef = document.querySelector('.box')
+    const obserObj = new IntersectionObserver(function(entries,obserObj){    //IntersectionObserver(callback,options)
+        const entryObj = entries[0]
+        if(entryObj.isIntersecting){
+            console.log('inside')
+        }else{
+            console.log('outside')
+        }
+    },{threshold:1})
+    obserObj.observe(elementRef)
+</script>

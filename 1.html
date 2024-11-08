@@ -1,0 +1,26 @@
+<style>
+    .box{
+        background-color: red;
+        height: 100px;
+        width: 100px;
+    }
+    .cont1{
+        height: 1000px;
+    }
+</style>
+
+<div class="cont1"></div>
+<div class="box"></div>
+<div class="cont1"></div>
+
+<script>
+    const elementRef = document.querySelector('.box')
+    window.addEventListener('scroll',function(){
+        const{top,bottom,left,right} = elementRef.getBoundingClientRect()
+        if(left>0 && top>0 && right<document.body.clientWidth && bottom < document.body.clientHeight){
+            console.log("Inside the viewport")
+        }else{
+            console.log("outside the viewport")
+        }
+    })
+</script>
