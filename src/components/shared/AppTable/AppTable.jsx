@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Pagination } from './Pagination'
+import Image from 'next/image';
 
-export const AppTable = ({ths,data,tds,handleEdit,handleDelete,hasImage}) => {
+export const AppTable = ({ths,data,tds,handleEdit,handleDelete,imgTds,imgThs}) => {
     const perPage = 5;
     const [currPage, setCurrPage] = React.useState(1)
     const [currData, setCurrData] = useState([])
@@ -13,10 +14,14 @@ export const AppTable = ({ths,data,tds,handleEdit,handleDelete,hasImage}) => {
     }, [currPage, data])
   return (
     <div className='table-responsive'>
-        {data && data?.length ? <>
+        {data && data?.length ? 
+        <>
         <table className='table table-bordered'>
             <thead>
                 <tr>
+                    {imgThs?.map((val,index)=>{
+                        return <th key={`th ${index}`}>{val}</th>
+                    })}
                     {ths?.map((val,index)=>{
                         return <th key={`th ${index}`}>{val}</th>
                     })}
@@ -27,6 +32,11 @@ export const AppTable = ({ths,data,tds,handleEdit,handleDelete,hasImage}) => {
             <tbody>
                 {currData?.map((obj,index)=>{
                     return <tr key={`tr ${index}`}>
+                        {imgTds?.map((val,index)=>{
+                            return <td key={`td ${index}`}>
+                                     <Image src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${obj[val]}`} width={100} height={100}/>
+                                    </td>
+                        })}
                         {tds?.map((val,index)=>{
                             return <td key={`td ${index}`}>{obj[val]}</td>
                         })}
