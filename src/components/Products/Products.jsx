@@ -1,19 +1,27 @@
 'use client'
 import { useMutation, useQuery } from '@apollo/client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {GET_PRODUCTS} from "../../graphQL/query/getProducts"
 import {DELETE_PRODUCT} from '../../graphQL/mutation/deleteProduct'
 import {AppTable} from '../shared/AppTable'
 import {updateStoreData} from '../../services/functions'
 import { useDispatch } from 'react-redux'
+import styles from './Products.module.css'
+import {AppForm} from '../shared/AppForm'
+import {ProductForm} from './ProductForm'
 
 export const Products = () => {
+  const [isShowForm,setIsShowForm] = useState(false)
   const dispatch = useDispatch()
   const{data,error,loading,refetch} = useQuery(GET_PRODUCTS,{
     fetchPolicy:"no-cache"  // Doesn't check cache before making a network request
   })
   const[fnDeleteProduct] = useMutation(DELETE_PRODUCT)
   // console.log(data?.getProducts)
+
+  const fnAddProduct = () =>{
+    setIsShowForm(true)
+  }
   
   const deleteProduct=async ({_id,filePath})=>{
     // console.log(111,_id,filePath)
@@ -62,6 +70,7 @@ export const Products = () => {
   },[loading])
   return (
     <div>
+      <div className='text-end m-3'><button className="btn btn-primary" onClick={fnAddProduct}>Add Product</button></div>
       <AppTable data={data?.getProducts ||[]}
        imgThs={["Image"]}
        imgTds={["filePath"]}
@@ -69,6 +78,7 @@ export const Products = () => {
        ths={["Name","Category","Cost","Description"]} 
        handleDelete={handleDelete}
        />
+       {isShowForm &&<AppForm setIsShowForm={setIsShowForm}><ProductForm/></AppForm>}
     </div>
   )
 }

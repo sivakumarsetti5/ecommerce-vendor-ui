@@ -7,6 +7,7 @@ import { Provider} from "react-redux";
 import RootLayoutWrapper from "./layoutWrapper";
 import { store } from "../stateManagement/appStore";
 import {ApolloProvider,ApolloClient,InMemoryCache} from '@apollo/client'
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {

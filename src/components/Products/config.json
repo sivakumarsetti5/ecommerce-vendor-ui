@@ -1,0 +1,85 @@
+[
+    {
+        "lbl":"Category",
+        "lblCols":"12",
+        "name":"category",
+        "tag":"select",
+        "errMsgCols":"12",
+        "errorMsg":"",
+        "inputCols":"12",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "options":["Mobiles","Laptops","MacBook"],
+        "values" :["mobiles","laptops","macbooks"],
+        "criteria":[
+            "REQUIRED"
+        ]
+    },{
+        "lbl":"Product Name",
+        "lblCols":"12",
+        "name":"name",
+        "type":"text",
+        "tag":"input",
+        "errMsgCols":"12",
+        "errorMsg":"",
+        "inputCols":"12",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "placeholder":"Enter product Name",
+        "criteria":[
+            "REQUIRED"
+        ]
+    },
+    {
+        "lbl":"Cost",
+        "lblCols":"12",
+        "name":"cost",
+        "type":"text",
+        "tag":"input",
+        "errMsgCols":"12",
+        "errorMsg":"",
+        "inputCols":"12",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "placeholder":"Enter Cost",
+        "criteria":[
+            "REQUIRED"
+        ]
+    },{
+        "lbl":"Description",
+        "lblCols":"12",
+        "name":"description",
+        "type":"text",
+        "tag":"textarea",
+        "errMsgCols":"12",
+        "errorMsg":"",
+        "inputCols":"12",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "placeholder":"Product Description ",
+        "criteria":[
+            "REQUIRED"
+        ]
+    },{
+        "lbl":"Image",
+        "lblCols":"12",
+        "name":"image",
+        "type":"file",
+        "tag":"input",
+        "errMsgCols":"12",
+        "errorMsg":"",
+        "inputCols":"12",
+        "hasError":false,
+        "value":"",
+        "isRequired":true,
+        "criteria":[
+            "REQUIRED",
+            "IMG_ONLY",
+            "IMG_MAXSIZE_5KB"
+        ]
+    }
+]

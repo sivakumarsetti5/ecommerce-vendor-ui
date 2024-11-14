@@ -34,7 +34,7 @@ export const AppTable = ({ths,data,tds,handleEdit,handleDelete,imgTds,imgThs}) =
                     return <tr key={`tr ${index}`}>
                         {imgTds?.map((val,index)=>{
                             return <td key={`td ${index}`}>
-                                     <Image src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${obj[val]}`} width={100} height={100}/>
+                                     <Image src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${obj[val]}`} width={100} height={100} alt='product image'/>
                                     </td>
                         })}
                         {tds?.map((val,index)=>{

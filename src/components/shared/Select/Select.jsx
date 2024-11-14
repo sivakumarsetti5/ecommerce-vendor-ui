@@ -1,14 +1,19 @@
 import React from 'react'
-import Styles from './TextArea.module.css'
+import Styles from './Select.module.css'
 
-export const TextArea = ({lbl,lblCols,inputCols,errorMsg,value,isRequired,type,name,errMsgCols,handleChange,placeholder}) => {
+export const Select = ({lbl,lblCols,inputCols,errorMsg,value,isRequired,name,errMsgCols,handleChange,options,values}) => {
     return (
       <div className='row mb-3'>
           <div className={`col-sm-${lblCols} text-end`}>
               <label className='form-label'>{lbl}{isRequired && <span className='text-danger'>*</span>}:</label>
           </div>
           <div className={`col-sm-${inputCols}`}>
-              <textarea value={value} name={name} className='form-control' placeholder={placeholder} onChange={handleChange}/>
+              <select className='form-select' onChange={handleChange} name={name}>
+                <option>--select--</option>
+                {options?.map((val,ind)=>{
+                    return <option key={ind} value={values[ind]} >{val}</option>
+                })}
+              </select>
           </div>
           <div className={`col-sm-${errMsgCols}`}>
               {errorMsg && <b className='text-danger'>{errorMsg}</b>}
