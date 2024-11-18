@@ -1,3 +1,7 @@
+/* .productsCont{
+    height: 100vh;
+    overflow: auto;
+} */
 .maskCont{
     position: fixed;
     top:0;
@@ -9,5 +13,8 @@
 }
 .formCont{
     height: 90vh;
+    position: absolute;
     overflow: auto;
+    margin-top:30px;
+    margin-bottom: 40px;
 }

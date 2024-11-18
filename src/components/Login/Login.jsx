@@ -3,7 +3,7 @@ import React, {useState } from 'react'
 // import { Input } from '@/components/shared/Input'
 import {Input} from '../shared/Input'
 import config  from './config.json'
-import { handleFieldLevelValidation, handleFormLevelValidation } from '../../services/validations'
+import { clearFormData, handleFieldLevelValidation, handleFormLevelValidation } from '../../services/validations'
 import { AppCookies } from '../../services/cookies'
 import { useDispatch } from 'react-redux'
 import { useLazyQuery } from '@apollo/client'
@@ -15,10 +15,11 @@ export const Login = () => {
     const[fnAuth] =  useLazyQuery(USER_LOGIN)
     const dispatch = useDispatch()
     const fnLogin = async() => {
-        try{
-            const[isInvalid,data] = handleFormLevelValidation(inputControls,setinputControls)
-            console.log("data",data)
-            if (isInvalid) return
+        const[isInvalid,data] =await handleFormLevelValidation(inputControls,setinputControls)
+        console.log("data",data)
+        console.log("isInvalid",isInvalid)
+        if (isInvalid) return
+        try{    
             updateStoreData(dispatch,"LOADER",true)
             const res = await fnAuth({
                 variables:{userLoginData:data}
@@ -30,6 +31,7 @@ export const Login = () => {
                 AppCookies.setCookie('uid',uid,7)
                 AppCookies.setCookie('phone',phone,7)
                 updateStoreData(dispatch,"LOGIN",true)
+                clearFormData(inputControls,setinputControls)
             }else{
                 updateStoreData(dispatch,"TOASTER",{
                     isShowToaster:true,

@@ -32,10 +32,8 @@ function getImageWidthAndHeight(file){
     return new Promise((resolve, reject) => {
 
         const img = new Image();
-
         // Load the image file as a data URL
         img.src = URL.createObjectURL(file);
-
         // When the image loads, get its width and height
         img.onload = function () {
             const width = img.width;
@@ -57,9 +55,7 @@ function getFileInfo(file){
         reader.onerror = () =>{
         }
     })
-    
 }
-
 async function validate(inputObj,clonedInputControls,files){
     inputObj.errorMsg = ""
     outerloop: for(let val of inputObj?.criteria){
@@ -76,6 +72,7 @@ async function validate(inputObj,clonedInputControls,files){
                 }
                 break
             case "IMG_ONLY":
+                if(!files) return
                 const{type} = files[0]
                 if(!type?.startsWith('image/')){
                     inputObj.errorMsg = message
@@ -87,10 +84,11 @@ async function validate(inputObj,clonedInputControls,files){
                 }
                 break
             case "IMG_MAXSIZE_5KB":
-                const {size} = files[0]
+                if(!files) return
+                const {size} = files?.[0]
                 const [width,height] = await getImageWidthAndHeight(files[0]) 
-                console.log(size,width,height)
-                if(!(size<15000 && width<500 && height<500)){
+                console.log("image info",size,width,height)
+                if(!(size<=150000 && width<=1200 && height<=1200)){
                     inputObj.errorMsg = message
                     break outerloop
                 }
@@ -122,11 +120,10 @@ export async function handleFieldLevelValidation(event,inputControls,setinputCon
 export async function handleFormLevelValidation(inputControls,setInputControls){
     const dataObj  = {}
     const clonedInputControls = Object.assign([],inputControls)
-    //const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
-    // console.log(clonedInputControls)
+    console.log(123123,clonedInputControls)
     await Promise.allSettled(
     clonedInputControls.map(async(obj ) =>{                            //check each input field have data or not
-        dataObj[obj.name] =obj.type==='file'?obj.selFile: obj.value
+        dataObj[obj.name] =obj.value  //obj.type==='file'?obj.selFile: obj.value
         await validate(obj,clonedInputControls,obj.selFile)                           //if data is there then update hasError is false otherwise true
     })
 )
@@ -137,19 +134,29 @@ export async function handleFormLevelValidation(inputControls,setInputControls){
 
 export function setFormData(inputControls,setInputControls,rowData,isEdit,fieldName){
     const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
+    console.log(888,rowData)
     clonedInputControls.forEach((obj ) =>{    
         if(isEdit && obj.name === fieldName){
             obj.isDisabled = true
         }     
-        obj.value = rowData[obj.name]         
+        obj.value = rowData[obj.name]
+        if(obj.type==='file'){
+            obj.value= rowData['filePath']
+        }         
     })
+    console.log(999,clonedInputControls)
     setInputControls(clonedInputControls)
 }
 
 export function clearFormData(inputControls,setInputControls){
-    const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
+    const clonedInputControls = Object.assign([],inputControls)
     clonedInputControls.forEach((obj ) =>{       
-        obj.value = ""         
+        obj.value = ""
+        if(obj.type === 'file'){
+            obj.src=""
+            obj.selFile="" 
+        }
+             
     })
     setInputControls(clonedInputControls)
     

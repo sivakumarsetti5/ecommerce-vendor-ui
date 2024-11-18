@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import menuItems from './config.json'
+import config from './config.json'
 import Link from 'next/link'
 import styles from './Menu.module.css'
 import Image from 'next/image'
@@ -7,6 +7,7 @@ import {AppCookies} from '../../services/cookies'
 import { useDispatch } from 'react-redux'
 
 export const Menu = () => {
+    const[inputControls,setInputControls] = useState(config)
     const[isMobileView,setIsMobileView] = useState(document.body.offsetWidth<700)
     const[left,setLeft] = useState('-80vw')
     const dispatch = useDispatch()
@@ -49,7 +50,7 @@ export const Menu = () => {
         {isMobileView && <Image onClick={handleMobileMenuBtnClick} className={styles.mobile_menu_icon} src='/menu-icon.jpg' width={40} height={30} alt='mobile Menu'/>}
         <ul style={{left}} className={isMobileView ? styles.mobileMenu : styles.menu}>
             {
-            menuItems?.map(({id,name,path})=>{
+            inputControls?.map(({id,name,path})=>{
                 return <li key={id} onClick={()=>handleMenuItemClick(id)}><Link id={id} href={path}>{name}</Link></li>
             })
             }

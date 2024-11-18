@@ -36,7 +36,7 @@
         "lbl":"Cost",
         "lblCols":"12",
         "name":"cost",
-        "type":"text",
+        "type":"number",
         "tag":"input",
         "errMsgCols":"12",
         "errorMsg":"",
@@ -75,6 +75,8 @@
         "inputCols":"12",
         "hasError":false,
         "value":"",
+        "src":"",
+        "filePath":"",
         "isRequired":true,
         "criteria":[
             "REQUIRED",

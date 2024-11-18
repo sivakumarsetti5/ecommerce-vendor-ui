@@ -8,7 +8,7 @@ export const Select = ({lbl,lblCols,inputCols,errorMsg,value,isRequired,name,err
               <label className='form-label'>{lbl}{isRequired && <span className='text-danger'>*</span>}:</label>
           </div>
           <div className={`col-sm-${inputCols}`}>
-              <select className='form-select' onChange={handleChange} name={name}>
+              <select className='form-select' onChange={handleChange} name={name} value={value}>
                 <option>--select--</option>
                 {options?.map((val,ind)=>{
                     return <option key={ind} value={values[ind]} >{val}</option>
