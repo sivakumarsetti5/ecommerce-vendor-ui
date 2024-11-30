@@ -88,13 +88,13 @@ async function validate(inputObj,clonedInputControls,files){
                 const {size} = files?.[0]
                 const [width,height] = await getImageWidthAndHeight(files[0]) 
                 console.log("image info",size,width,height)
-                if(!(size<=150000 && width<=1200 && height<=1200)){
+                if(!(size<=1000000 && width<=1200 && height<=1200)){
                     inputObj.errorMsg = message
                     break outerloop
                 }
                 break
             default:
-                if (pattern && !pattern.test(inputObj?.value)) {
+                if (pattern && !pattern.test(inputObj?.type==="file" ?(inputObj?.selFile || inputObj?.value) :inputObj?.value)) {
                     // if(!pattern?.test(inputObj?.value)){
                         inputObj.errorMsg = message
                         break outerloop
@@ -103,27 +103,35 @@ async function validate(inputObj,clonedInputControls,files){
         }
 }
 export async function handleFieldLevelValidation(event,inputControls,setinputControls){
+    debugger
     const{name,value,type,files} = event?.target
     //const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
     const clonedInputControls = Object.assign([],inputControls)
     let inputObj  = clonedInputControls.find((obj)=>obj.name === name)
-    inputObj.value = value
     if(type === 'file'){
         inputObj.selFile = files
-    }
+    }else{
+        inputObj.value = value
+    }  
     await validate(inputObj,clonedInputControls,files)
     // console.log(inputControls)
     setinputControls(clonedInputControls)
 }
 
 
-export async function handleFormLevelValidation(inputControls,setInputControls){
+export async function handleFormLevelValidation(inputControls,setInputControls,isEdit){
+    debugger
     const dataObj  = {}
     const clonedInputControls = Object.assign([],inputControls)
-    console.log(123123,clonedInputControls)
+    //console.log(123123,clonedInputControls)
     await Promise.allSettled(
     clonedInputControls.map(async(obj ) =>{                            //check each input field have data or not
-        dataObj[obj.name] =obj.value  //obj.type==='file'?obj.selFile: obj.value
+        dataObj[obj.name] =obj.type==='file'?obj.selFile: obj.value
+        if(isEdit){
+            if(obj.type==="file"){
+                dataObj.filePath = obj.value
+            }
+        }
         await validate(obj,clonedInputControls,obj.selFile)                           //if data is there then update hasError is false otherwise true
     })
 )
@@ -134,17 +142,18 @@ export async function handleFormLevelValidation(inputControls,setInputControls){
 
 export function setFormData(inputControls,setInputControls,rowData,isEdit,fieldName){
     const clonedInputControls = JSON.parse(JSON.stringify(inputControls))
-    console.log(888,rowData)
+    //console.log(888,rowData)
     clonedInputControls.forEach((obj ) =>{    
         if(isEdit && obj.name === fieldName){
             obj.isDisabled = true
         }     
-        obj.value = rowData[obj.name]
         if(obj.type==='file'){
-            obj.value= rowData['filePath']
+            obj.value= rowData["filePath"]
+        }else{
+            obj.value = rowData[obj.name]
         }         
     })
-    console.log(999,clonedInputControls)
+    //console.log(999,clonedInputControls)
     setInputControls(clonedInputControls)
 }
 
@@ -155,9 +164,7 @@ export function clearFormData(inputControls,setInputControls){
         if(obj.type === 'file'){
             obj.src=""
             obj.selFile="" 
-        }
-             
+        }     
     })
     setInputControls(clonedInputControls)
-    
 }

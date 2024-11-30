@@ -13,7 +13,7 @@ export const AppTable = ({ths,data,tds,handleEdit,handleDelete,imgTds,imgThs}) =
         setCurrData(data?.slice?.(start, end))
     }, [currPage, data])
   return (
-    <div className='table-responsive'>
+    <div className='table-responsive mx-3'>
         {data && data?.length ? 
         <>
         <table className='table table-bordered'>
@@ -34,7 +34,7 @@ export const AppTable = ({ths,data,tds,handleEdit,handleDelete,imgTds,imgThs}) =
                     return <tr key={`tr ${index}`} className='text-center align-middle'>
                         {imgTds?.map((val,index)=>{
                             return <td key={`td ${index}`}>
-                                     <Image src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${obj[val]}`} width={100} height={100} alt='product image'/>
+                                     <Image src={`${process.env.NEXT_PUBLIC_UPLOAD_URL}${obj[val]}?date=${Date.now()}`} width={100} height={100} alt='product image'/>
                                     </td>
                         })}
                         {tds?.map((val,index)=>{

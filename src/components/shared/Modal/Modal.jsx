@@ -22,7 +22,7 @@ export const Modal = () => {
     <div>
         <div className={styles.modalMask}></div>
         <div className={`px-3 py-3 ${styles.modalContent}`}>
-            <h5 className="mb-5">Are you close the Modal</h5>
+            <h5 className="mb-5">Are you sure</h5>
             <div className="text-end">
                 <button className="btn btn-dark me-3" onClick={fnOK} >
                     OK

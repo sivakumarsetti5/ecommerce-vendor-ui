@@ -10,6 +10,7 @@ export const Menu = () => {
     const[inputControls,setInputControls] = useState(config)
     const[isMobileView,setIsMobileView] = useState(document.body.offsetWidth<700)
     const[left,setLeft] = useState('-80vw')
+    const[isActiveId,setIsActiveId] = useState(inputControls[0].id)
     const dispatch = useDispatch()
     function handleResize(){
         window.addEventListener('resize',()=>{
@@ -36,6 +37,7 @@ export const Menu = () => {
         if(isMobileView){
             setLeft('-80vw')
         }
+        setIsActiveId(id)
     }
     const fnLogout=()=>{
         AppCookies.deleteAllCookies()
@@ -51,7 +53,7 @@ export const Menu = () => {
         <ul style={{left}} className={isMobileView ? styles.mobileMenu : styles.menu}>
             {
             inputControls?.map(({id,name,path})=>{
-                return <li key={id} onClick={()=>handleMenuItemClick(id)}><Link id={id} href={path}>{name}</Link></li>
+                return <li key={id} onClick={()=>handleMenuItemClick(id)} className={isActiveId === id ? styles.menuItemCont : ""}><Link id={id} href={path}>{name}</Link></li>
             })
             }
         </ul>

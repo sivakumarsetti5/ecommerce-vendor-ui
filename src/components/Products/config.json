@@ -10,12 +10,13 @@
         "hasError":false,
         "value":"",
         "isRequired":true,
-        "options":["Mobiles","Laptops","MacBook"],
-        "values" :["mobiles","laptops","macbooks"],
+        "options":["Electronics","Clothing","Appliances","Grocery","Toys"],
+        "values" :["Electronics","Clothing","Appliances","Grocery","Toys"],
         "criteria":[
             "REQUIRED"
         ]
-    },{
+    },
+    {
         "lbl":"Product Name",
         "lblCols":"12",
         "name":"name",
@@ -75,7 +76,6 @@
         "inputCols":"12",
         "hasError":false,
         "value":"",
-        "src":"",
         "filePath":"",
         "isRequired":true,
         "criteria":[

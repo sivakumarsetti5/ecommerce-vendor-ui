@@ -17,12 +17,12 @@ export const ChangePwd = () => {
   const dispatch = useDispatch()
   const refreshBtnRef = useRef()
 
-  const handleChange = (event) =>{
-    handleFieldLevelValidation(event,inputControls,setInputControls)
+  const handleChange = async(event) =>{
+    await handleFieldLevelValidation(event,inputControls,setInputControls)
   }
   const fnSubmit = async() =>{
     try{
-      const[isInvalid,data] = handleFormLevelValidation(inputControls,setInputControls)
+      const[isInvalid,data] = await handleFormLevelValidation(inputControls,setInputControls)
       if(isInvalid) return
       if(!isValidCaptcha){
         setIsFirstTimeLoad(false)

@@ -1,6 +1,6 @@
 "use client";
 import { useMutation, useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import config from "./config.json";
 import { useDispatch } from "react-redux";
 import styles from "./Products.module.css";
@@ -26,6 +26,7 @@ export const Products = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [rowData,setRowData] = useState({}) 
   const [inputControls, setInputControls] = useState(config);
+  const updateProductIdRef = useRef("")
 
   const [fnSaveProduct] = useMutation(SAVE_PRODUCTS);
   const { data, error, loading, refetch } = useQuery(GET_PRODUCTS, {
@@ -45,11 +46,12 @@ export const Products = () => {
   };
 
   const handleChange = async (event) => {
-    await handleFieldLevelValidation(event, inputControls, setInputControls);
+    await handleFieldLevelValidation(event, inputControls, setInputControls,isEdit);
   };
 
   const fnSubmit = async () => {
     const [isInvalid, data] = await handleFormLevelValidation(inputControls,setInputControls);
+    console.log("saveData",data)
     if (isInvalid) return;
     
     try {
@@ -91,28 +93,45 @@ export const Products = () => {
     }
   };
   const fnUpdate = async() =>{
-    const [isInvalid, data] = await handleFormLevelValidation(inputControls,setInputControls);
+    const [isInvalid, data] = await handleFormLevelValidation(inputControls,setInputControls,isEdit);
     console.log("updatedData",data)
-    const{name,category,description,cost,image} = data
+    const{name,category,description,cost,image,filePath} = data
     if (isInvalid) return;
     try{
       const res = await fnUpdateProduct({
         variables:{
-          "file": data?.image?.[0],
+          "file":image?.[0] || null,
           "productInput": {
             "category":category,
-            "cost": cost,
+            "cost": Number(cost),
             "description": description,
-            "filePath":image,
-            "id": rowData._id,
+            "filePath":filePath,
+            "id":updateProductIdRef.current,
             "name": name
           }
         }
       })
-      const{acknowledged,modifiedCount} = res?.data?.updateProduct
-      alert("success",acknowledged,modifiedCount)
-    }catch(ex){
-      console.log(ex?.message)
+      const{acknowledged,modifiedCount,isImageModified} = res?.data?.updateProduct
+      let isSuccess = false;
+      if ((modifiedCount || isImageModified) && acknowledged) {
+        isSuccess = true;
+        refetch();
+        clearFormData(inputControls, setInputControls);
+        setIsShowForm(false);
+      }
+      updateStoreData(dispatch, "TOASTER", {
+        isShowToaster: true,
+        toasterMsg: isSuccess ? "Successfully Updated" : "Not Updated",
+        color: isSuccess ? "green" : "red",
+      });
+    } catch (ex) {
+      updateStoreData(dispatch, "TOASTER", {
+        isShowToaster: true,
+        toasterMsg: ex?.message,
+        color: "red",
+      });
+    } finally {
+      updateStoreData(dispatch, "LOADER", false);
     }
   }
 
@@ -161,7 +180,8 @@ export const Products = () => {
   const handleEdit = (row) => {
     //console.log("row",row)
     setIsShowForm(true);
-    setRowData(row)
+    //setRowData(row)
+    updateProductIdRef.current = row._id
     setIsEdit(true);
     setFormData(inputControls,setInputControls,row)
   };

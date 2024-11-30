@@ -11,6 +11,7 @@
     line-height: 30px;
     letter-spacing: 3px;
 }
+
 .menu a{
     text-decoration: none;
 }
@@ -36,3 +37,12 @@
 .mobileMenu a{
     text-decoration: none;
 }
+
+.menuItemCont{
+    background-color: white;
+    padding: 5px;
+    color: white;
+}
+.menuItem:hover {
+    background-color: lightblue; /* Change color on hover */
+  }
